@@ -146,3 +146,59 @@ https://matchify-blush.vercel.app/
 
 The goal of Matchify is to make student team formation more effective by helping users find teammates based on what a project actually needs, rather than simply browsing profiles.
 
+\## Architecture
+
+
+
+```text
+
+Student
+
+&#x20;  ↓
+
+React + TypeScript Frontend
+
+&#x20;  ↓
+
+Express API Server
+
+&#x20;  ↓
+
+Matching \& AI Services
+
+&#x20;  ↓
+
+Candidate / Project Results
+
+## Security
+
+- Sensitive API configuration is stored using environment variables.
+- API credentials are kept on the server side.
+- Environment files are excluded from version control.
+- The frontend does not directly expose private API credentials.
+- The application supports an intelligent fallback when AI services are unavailable.
+## Testing & Validation
+
+The application was validated through:
+
+- Production build verification using Vite.
+- Candidate matching flow testing.
+- Project and team interaction testing.
+- Profile and messaging flow testing.
+- Skill assessment flow testing.
+- Navigation and responsive UI checks.
+- Verification of the deployed production build.
+
+The production build was successfully generated before deployment.
+## Accessibility
+
+Matchify considers accessibility through:
+
+- Descriptive alternative text for profile images.
+- Accessible labels for important interactive controls.
+- Visible keyboard focus states.
+- Improved text and background contrast.
+- Clear visual hierarchy.
+- Responsive layouts for different screen sizes.
+- Readable typography and interactive elements.
+
