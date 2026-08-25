@@ -2,98 +2,463 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================================
+   MATCHIFY — DARK GLASS UI
+   Black / White / Neutral Glassmorphism
+   ========================================================= */
+
 :root {
-  color-scheme: light;
+  color-scheme: dark;
+}
+
+html {
+  background: #050505;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #f8fafc;
-  color: #0f172a;
-  font-family: 'Inter', 'Outfit', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(circle at 50% -10%,
+      rgba(255, 255, 255, 0.09),
+      transparent 38%),
+    radial-gradient(circle at 0% 50%,
+      rgba(255, 255, 255, 0.035),
+      transparent 30%),
+    #050505;
+
+  color: #f5f5f5;
+
+  font-family:
+    'Inter',
+    'Outfit',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom Scrollbars */
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #050505;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+  background: #2d2d2d;
+  border-radius: 999px;
+  border: 2px solid #050505;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #555;
 }
 
-/* Polished Card & Panel System */
+/* =========================================================
+   GLASS CARDS
+   ========================================================= */
+
 .student-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  position: relative;
+
+  background:
+    linear-gradient(145deg,
+      rgba(255, 255, 255, 0.075),
+      rgba(255, 255, 255, 0.025));
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 1.25rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .student-card:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+
+  border-color: rgba(255, 255, 255, 0.25);
+
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .student-panel {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  position: relative;
+
+  background:
+    linear-gradient(145deg,
+      rgba(255, 255, 255, 0.065),
+      rgba(255, 255, 255, 0.018));
+
+  border: 1px solid rgba(255, 255, 255, 0.11);
   border-radius: 1.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-/* Honest Assessment Badges */
+/* =========================================================
+   ASSESSMENT BADGES
+   ========================================================= */
+
 .badge-assessed {
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  color: #047857;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+
+  box-shadow:
+    0 0 20px rgba(255, 255, 255, 0.04);
 }
 
 .badge-self-reported {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  color: #64748b;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a3a3a3;
 }
 
-/* Primary Accent Utilities */
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
 .btn-primary {
-  background: #4f46e5;
-  color: #ffffff;
-  font-weight: 600;
+  background: #ffffff;
+  color: #050505;
+
+  font-weight: 700;
+
   border-radius: 0.75rem;
-  transition: all 0.15s ease-in-out;
+
+  border: 1px solid rgba(255, 255, 255, 0.9);
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .btn-primary:hover {
-  background: #4338ca;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+  background: #e5e5e5;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 30px rgba(255, 255, 255, 0.12);
 }
 
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
 .btn-secondary {
-  background: #f1f5f9;
-  color: #334155;
+  background: rgba(255, 255, 255, 0.045);
+  color: #e5e5e5;
+
   font-weight: 600;
-  border: 1px solid #e2e8f0;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 0.75rem;
-  transition: all 0.15s ease-in-out;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .btn-secondary:hover {
-  background: #e2e8f0;
-  color: #0f172a;
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+}
+
+/* =========================================================
+   GENERIC GLASS UTILITY
+   ========================================================= */
+
+.glass {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* =========================================================
+   TEXT SELECTION
+   ========================================================= */
+
+::selection {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+/* =========================================================
+   MATCHIFY GLOBAL DARK GLASS OVERRIDES
+   Keeps the existing UI layout but converts light surfaces
+   into the black / white glass aesthetic.
+   ========================================================= */
+
+/* Main light surfaces */
+.bg-white {
+  background: rgba(15, 15, 17, 0.72) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.bg-white\/90 {
+  background: rgba(10, 10, 12, 0.82) !important;
+}
+
+.bg-white\/80 {
+  background: rgba(10, 10, 12, 0.76) !important;
+}
+
+.bg-white\/60 {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.bg-slate-50 {
+  background: rgba(255, 255, 255, 0.045) !important;
+}
+
+.bg-slate-100 {
+  background: rgba(255, 255, 255, 0.055) !important;
+}
+
+.bg-slate-200 {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Dark page surfaces */
+.bg-slate-950,
+.bg-slate-900 {
+  background-color: #050505 !important;
+}
+
+/* Borders */
+.border-slate-100,
+.border-slate-200,
+.border-slate-300 {
+  border-color: rgba(255, 255, 255, 0.11) !important;
+}
+
+.border-slate-200\/60,
+.border-slate-200\/80 {
+  border-color: rgba(255, 255, 255, 0.10) !important;
+}
+
+/* Main text */
+.text-slate-900 {
+  color: #f5f5f5 !important;
+}
+
+.text-slate-800 {
+  color: #e5e5e5 !important;
+}
+
+.text-slate-700 {
+  color: #d4d4d4 !important;
+}
+
+.text-slate-600 {
+  color: #a3a3a3 !important;
+}
+
+.text-slate-500 {
+  color: #8a8a8a !important;
+}
+
+.text-slate-400 {
+  color: #737373 !important;
+}
+
+/* Hover surfaces */
+.hover\:bg-white:hover {
+  background: rgba(255, 255, 255, 0.09) !important;
+}
+
+.hover\:bg-slate-100:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.hover\:bg-white\/60:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* =========================================================
+   DARK GLASS CONTAINERS
+   ========================================================= */
+
+.student-card,
+.student-panel {
+  background:
+    linear-gradient(145deg,
+      rgba(255, 255, 255, 0.075),
+      rgba(255, 255, 255, 0.025)) !important;
+
+  border-color: rgba(255, 255, 255, 0.12) !important;
+
+  box-shadow:
+    0 20px 55px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* =========================================================
+   INPUTS / SEARCH
+   ========================================================= */
+
+input,
+textarea,
+select {
+  color: #f5f5f5 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #737373 !important;
+}
+
+input,
+select,
+textarea {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06) !important;
+}
+
+/* =========================================================
+   GLASS NAVIGATION
+   ========================================================= */
+
+header {
+  background:
+    rgba(5, 5, 5, 0.82) !important;
+
+  border-color: rgba(255, 255, 255, 0.10) !important;
+
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* Navigation containers */
+nav {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+}
+
+/* Active navigation item */
+nav .bg-white {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 25px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* =========================================================
+   WHITE BRAND ACCENTS → NEUTRAL WHITE
+   ========================================================= */
+
+.text-brand-600,
+.text-brand-700,
+.text-brand-800 {
+  color: #ffffff !important;
+}
+
+.bg-brand-50 {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.border-brand-200,
+.border-brand-300 {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn-primary {
+  background: #ffffff !important;
+  color: #050505 !important;
+}
+
+.btn-primary:hover {
+  background: #e5e5e5 !important;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.055) !important;
+  color: #e5e5e5 !important;
+  border-color: rgba(255, 255, 255, 0.13) !important;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.10) !important;
+  color: #ffffff !important;
+}
+
+/* =========================================================
+   MODALS / OVERLAYS
+   ========================================================= */
+
+.fixed.inset-0 {
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+  background: rgba(255, 255, 255, 0.22);
+  color: white;
 }

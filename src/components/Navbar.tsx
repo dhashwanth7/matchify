@@ -1,10 +1,35 @@
-import React from 'react';
-import { Sparkles, Compass, FolderGit2, MessageSquare, User, RotateCcw, Award, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  Sparkles,
+  Compass,
+  FolderGit2,
+  MessageSquare,
+  User,
+  RotateCcw,
+  Search,
+  X,
+} from 'lucide-react';
 import { Student } from '../types';
 
 interface NavbarProps {
-  activeTab: 'matches' | 'explore' | 'projects' | 'messages' | 'team' | 'profile';
-  setActiveTab: (tab: 'matches' | 'explore' | 'projects' | 'messages' | 'team' | 'profile') => void;
+  activeTab:
+  | 'matches'
+  | 'explore'
+  | 'projects'
+  | 'messages'
+  | 'team'
+  | 'profile';
+
+  setActiveTab: (
+    tab:
+      | 'matches'
+      | 'explore'
+      | 'projects'
+      | 'messages'
+      | 'team'
+      | 'profile'
+  ) => void;
+
   currentUser: Student;
   unreadMessagesCount: number;
   onResetDemo: () => void;
@@ -17,178 +42,376 @@ export const Navbar: React.FC<NavbarProps> = ({
   currentUser,
   unreadMessagesCount,
   onResetDemo,
-  onOpenAssessment,
 }) => {
-  const assessedCount = currentUser.skills.filter(s => s.isAssessed).length;
+  const assessedCount = currentUser.skills.filter(
+    (skill) => skill.isAssessed
+  ).length;
+
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+
+    if (value.trim().length > 0) {
+      setActiveTab('explore');
+    }
+  };
+
+  const navItem = (
+    tab:
+      | 'matches'
+      | 'explore'
+      | 'projects'
+      | 'messages'
+      | 'profile',
+    label: string,
+    icon: React.ReactNode
+  ) => {
+    const active =
+      activeTab === tab ||
+      (tab === 'projects' && activeTab === 'team');
+
+    return (
+      <button
+        onClick={() => setActiveTab(tab)}
+        className={`
+          group relative flex items-center gap-2
+          px-4 py-2 rounded-xl
+          text-sm font-medium
+          transition-all duration-200
+          ${active
+            ? 'bg-white/[0.10] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)]'
+            : 'text-white/55 hover:text-white hover:bg-white/[0.06]'
+          }
+        `}
+      >
+        <span
+          className={`
+            transition-colors
+            ${active ? 'text-white' : 'text-white/45 group-hover:text-white/80'}
+          `}
+        >
+          {icon}
+        </span>
+
+        {label}
+
+        {tab === 'messages' && unreadMessagesCount > 0 && (
+          <span className="ml-0.5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+        )}
+      </button>
+    );
+  };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Brand Logo */}
-          <div
+    <header
+      className="
+        sticky top-0 z-50 w-full
+        border-b border-white/[0.08]
+        bg-[#050505]/80
+        backdrop-blur-2xl
+        supports-[backdrop-filter]:bg-[#050505]/65
+      "
+    >
+      {/* Subtle top highlight */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+
+      <div className="max-w-[1500px] mx-auto px-5 sm:px-8">
+        <div className="flex items-center justify-between h-[76px] gap-6">
+
+          {/* ================================================= */}
+          {/* BRAND */}
+          {/* ================================================= */}
+
+          <button
             onClick={() => setActiveTab('matches')}
-            className="flex items-center gap-3 cursor-pointer group select-none"
+            className="flex items-center gap-3 shrink-0 group"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-sm shadow-brand-500/30 transition-transform group-hover:scale-105">
+            <div
+              className="
+                relative w-11 h-11 rounded-2xl
+                border border-white/15
+                bg-white/[0.06]
+                backdrop-blur-xl
+                flex items-center justify-center
+                text-white
+                shadow-[0_8px_30px_rgba(0,0,0,0.35)]
+                transition-all duration-300
+                group-hover:bg-white/[0.10]
+                group-hover:border-white/25
+                group-hover:scale-[1.03]
+              "
+            >
               <Sparkles className="w-5 h-5" />
+
+              <span className="absolute inset-0 rounded-2xl ring-1 ring-white/5" />
             </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-lg font-extrabold tracking-tight text-slate-900 font-sans">
-                  Match<span className="text-brand-600">ify</span>
+
+            <div className="text-left hidden sm:block">
+              <div className="flex items-center gap-2">
+                <span className="text-xl font-bold tracking-tight text-white">
+                  Matchify
                 </span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-brand-50 text-brand-700 border border-brand-200">
+
+                <span
+                  className="
+                    text-[9px] uppercase tracking-[0.18em]
+                    font-semibold
+                    px-2 py-0.5
+                    rounded-full
+                    border border-white/15
+                    bg-white/[0.05]
+                    text-white/60
+                  "
+                >
                   Campus
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 -mt-0.5 hidden sm:block">
+
+              <p className="text-[10px] text-white/40 mt-0.5">
                 Find the right people. Build the right team.
               </p>
             </div>
-          </div>
+          </button>
 
-          {/* Nav Tabs (Desktop) */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
-            <button
-              onClick={() => setActiveTab('matches')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeTab === 'matches'
-                  ? 'bg-white text-brand-700 shadow-sm font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-              Match Hub
-            </button>
+          {/* ================================================= */}
+          {/* MAIN NAV */}
+          {/* ================================================= */}
 
-            <button
-              onClick={() => setActiveTab('explore')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeTab === 'explore'
-                  ? 'bg-white text-brand-700 shadow-sm font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-              }`}
-            >
-              <Compass className="w-3.5 h-3.5" />
-              Explore
-            </button>
+          <nav
+            className="
+              hidden lg:flex items-center gap-1
+              rounded-2xl
+              border border-white/[0.10]
+              bg-white/[0.035]
+              p-1.5
+              backdrop-blur-xl
+              shadow-[0_10px_40px_rgba(0,0,0,0.25)]
+            "
+          >
+            {navItem(
+              'matches',
+              'Match Hub',
+              <Sparkles className="w-4 h-4" />
+            )}
 
-            <button
-              onClick={() => setActiveTab('projects')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeTab === 'projects' || activeTab === 'team'
-                  ? 'bg-white text-brand-700 shadow-sm font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-              }`}
-            >
-              <FolderGit2 className="w-3.5 h-3.5" />
-              Projects
-            </button>
+            {navItem(
+              'explore',
+              'Explore',
+              <Compass className="w-4 h-4" />
+            )}
 
-            <button
-              onClick={() => setActiveTab('messages')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all relative ${
-                activeTab === 'messages'
-                  ? 'bg-white text-brand-700 shadow-sm font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-              }`}
-            >
-              <MessageSquare className="w-3.5 h-3.5" />
-              Messages
-              {unreadMessagesCount > 0 && (
-                <span className="w-2 h-2 rounded-full bg-brand-600" />
-              )}
-            </button>
+            {navItem(
+              'projects',
+              'Projects',
+              <FolderGit2 className="w-4 h-4" />
+            )}
 
-            <button
-              onClick={() => setActiveTab('profile')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                activeTab === 'profile'
-                  ? 'bg-white text-brand-700 shadow-sm font-bold'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
-              }`}
-            >
-              <User className="w-3.5 h-3.5" />
-              My Profile
-            </button>
+            {navItem(
+              'messages',
+              'Messages',
+              <MessageSquare className="w-4 h-4" />
+            )}
+
+            {navItem(
+              'profile',
+              'My Profile',
+              <User className="w-4 h-4" />
+            )}
           </nav>
 
-          {/* Right Header Actions */}
-          <div className="flex items-center gap-2.5">
+          {/* ================================================= */}
+          {/* RIGHT ACTIONS */}
+          {/* ================================================= */}
+
+          <div className="flex items-center gap-2 shrink-0">
+
+            {/* SEARCH */}
+            <div className="relative">
+              {searchOpen ? (
+                <div
+                  className="
+                    flex items-center gap-2
+                    w-[220px]
+                    h-10
+                    px-3
+                    rounded-xl
+                    border border-white/15
+                    bg-white/[0.07]
+                    backdrop-blur-xl
+                    shadow-[0_10px_35px_rgba(0,0,0,0.35)]
+                  "
+                >
+                  <Search className="w-4 h-4 text-white/45 shrink-0" />
+
+                  <input
+                    autoFocus
+                    value={searchValue}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    placeholder="Search people, skills..."
+                    className="
+                      flex-1
+                      min-w-0
+                      bg-transparent
+                      outline-none
+                      text-sm
+                      text-white
+                      placeholder:text-white/30
+                    "
+                  />
+
+                  <button
+                    onClick={() => {
+                      setSearchOpen(false);
+                      setSearchValue('');
+                    }}
+                    className="text-white/40 hover:text-white transition"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setSearchOpen(true)}
+                  title="Search"
+                  className="
+                    w-10 h-10
+                    rounded-xl
+                    border border-white/10
+                    bg-white/[0.045]
+                    text-white/55
+                    hover:text-white
+                    hover:bg-white/[0.09]
+                    hover:border-white/20
+                    flex items-center justify-center
+                    transition-all
+                    duration-200
+                  "
+                >
+                  <Search className="w-[17px] h-[17px]" />
+                </button>
+              )}
+            </div>
+
+            {/* RESET */}
             <button
               onClick={onResetDemo}
-              title="Reset seeded demo dataset"
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200"
+              title="Reset demo"
+              className="
+                hidden xl:flex
+                items-center gap-2
+                h-10
+                px-3
+                rounded-xl
+                border border-white/10
+                bg-white/[0.035]
+                text-white/45
+                hover:text-white
+                hover:bg-white/[0.07]
+                transition-all
+                text-xs
+              "
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Reset Demo</span>
+              Reset
             </button>
 
-            {/* Profile Avatar Pill */}
-            <div
+            {/* PROFILE */}
+            <button
               onClick={() => setActiveTab('profile')}
-              className="flex items-center gap-2 pl-2 pr-3 py-1 rounded-full bg-slate-50 border border-slate-200 hover:border-brand-300 hover:bg-white cursor-pointer transition-all shadow-2xs"
+              className="
+                flex items-center gap-2.5
+                h-11
+                pl-1.5 pr-3
+                rounded-full
+                border border-white/10
+                bg-white/[0.05]
+                backdrop-blur-xl
+                hover:bg-white/[0.09]
+                hover:border-white/20
+                transition-all
+                duration-200
+              "
             >
-              <img
-                src={currentUser.avatar}
-                alt={currentUser.name}
-                className="w-7 h-7 rounded-full object-cover ring-1 ring-slate-200"
-              />
+              <div className="relative">
+                <img
+                  src={currentUser.avatar}
+                  alt={currentUser.name}
+                  className="
+                    w-8 h-8
+                    rounded-full
+                    object-cover
+                    ring-1 ring-white/15
+                  "
+                />
+
+                <span
+                  className="
+                    absolute -bottom-0.5 -right-0.5
+                    w-2.5 h-2.5
+                    rounded-full
+                    bg-white
+                    ring-2 ring-[#050505]
+                  "
+                />
+              </div>
+
               <div className="text-left hidden sm:block">
-                <div className="text-xs font-bold text-slate-900 leading-tight">
+                <div className="text-xs font-semibold text-white leading-tight">
                   {currentUser.name}
                 </div>
-                <div className="text-[10px] text-emerald-700 font-medium">
-                  {assessedCount} Assessed {assessedCount === 1 ? 'Skill' : 'Skills'}
+
+                <div className="text-[10px] text-white/40 mt-0.5">
+                  {assessedCount} Assessed{' '}
+                  {assessedCount === 1 ? 'Skill' : 'Skills'}
                 </div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
 
-        {/* Mobile Navigation bar */}
-        <div className="flex md:hidden items-center justify-around py-2 border-t border-slate-100 overflow-x-auto gap-1">
-          <button
-            onClick={() => setActiveTab('matches')}
-            className={`px-3 py-1 rounded-md text-xs font-medium ${
-              activeTab === 'matches' ? 'bg-brand-600 text-white font-bold' : 'text-slate-600'
-            }`}
-          >
-            Matches
-          </button>
-          <button
-            onClick={() => setActiveTab('explore')}
-            className={`px-3 py-1 rounded-md text-xs font-medium ${
-              activeTab === 'explore' ? 'bg-brand-600 text-white font-bold' : 'text-slate-600'
-            }`}
-          >
-            Explore
-          </button>
-          <button
-            onClick={() => setActiveTab('projects')}
-            className={`px-3 py-1 rounded-md text-xs font-medium ${
-              activeTab === 'projects' || activeTab === 'team' ? 'bg-brand-600 text-white font-bold' : 'text-slate-600'
-            }`}
-          >
-            Projects
-          </button>
-          <button
-            onClick={() => setActiveTab('messages')}
-            className={`px-3 py-1 rounded-md text-xs font-medium relative ${
-              activeTab === 'messages' ? 'bg-brand-600 text-white font-bold' : 'text-slate-600'
-            }`}
-          >
-            Messages
-          </button>
-          <button
-            onClick={() => setActiveTab('profile')}
-            className={`px-3 py-1 rounded-md text-xs font-medium ${
-              activeTab === 'profile' ? 'bg-brand-600 text-white font-bold' : 'text-slate-600'
-            }`}
-          >
-            Profile
-          </button>
+        {/* ================================================= */}
+        {/* MOBILE NAV */}
+        {/* ================================================= */}
+
+        <div className="lg:hidden flex items-center gap-1 pb-3 overflow-x-auto scrollbar-hide">
+          {[
+            ['matches', 'Match'],
+            ['explore', 'Explore'],
+            ['projects', 'Projects'],
+            ['messages', 'Messages'],
+            ['profile', 'Profile'],
+          ].map(([tab, label]) => (
+            <button
+              key={tab}
+              onClick={() =>
+                setActiveTab(
+                  tab as
+                  | 'matches'
+                  | 'explore'
+                  | 'projects'
+                  | 'messages'
+                  | 'profile'
+                )
+              }
+              className={`
+                whitespace-nowrap
+                px-3.5 py-2
+                rounded-xl
+                text-xs font-medium
+                border
+                transition-all
+                ${activeTab === tab ||
+                  (tab === 'projects' && activeTab === 'team')
+                  ? 'bg-white text-black border-white'
+                  : 'bg-white/[0.035] text-white/50 border-white/10 hover:text-white hover:bg-white/[0.07]'
+                }
+              `}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </div>
     </header>
