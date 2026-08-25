@@ -147,6 +147,7 @@ export const CandidateCard: React.FC<CandidateCardProps> = ({
             <button
               onClick={() => onOpenMessage(candidate)}
               title={`Send message to ${candidate.name}`}
+              aria-label={`Send message to ${candidate.name}`}
               className="p-1.5 rounded-lg text-slate-600 hover:text-brand-600 hover:bg-slate-100 transition-colors"
             >
               <MessageSquare className="w-4 h-4" />
